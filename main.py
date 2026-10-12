@@ -1,0 +1,29 @@
+import llm
+
+history=[{"role":"system","content":"你是一个乐于助人的ai助手。"}]
+
+def main():
+    print("Ai助手已启动，输入/reset 清空上下文，输入 exit 退出")
+    while True:
+        q=input("\n你：").strip()
+        if not q:
+            continue
+        if q in ("exit","quit"):
+            print("再见！")
+            break
+        if q=="/reset":
+            del history[1:]
+            print("已清理上下文")
+            continue
+
+        history.append({"role":"user","content":q})
+        ans = llm.chat(history)
+        if ans is None:
+            history.pop()
+            continue
+
+        print("\nAI:",ans)
+        history.append({"role":"assistant","content":ans})
+
+if __name__=="__main__":
+    main()
