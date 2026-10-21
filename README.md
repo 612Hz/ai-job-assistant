@@ -70,3 +70,38 @@ ai-job-assistant/
 - [ ] 向量检索（RAG）
 - [ ] LangGraph Agent 编排
 - [ ] FastAPI + Streamlit 部署上线
+
+
+
+## 系统架构
+
+```mermaid
+flowchart TB
+    subgraph 前端层
+        UI[Streamlit 界面<br/>简历上传 / 匹配报告 / 问答]
+    end
+
+    subgraph 后端层
+        API[FastAPI 后端<br/>异步 + SSE 流式]
+    end
+
+    subgraph 业务模块层
+        RAG[面经问答模块<br/>解析→切分→检索→重排→生成]
+        AGENT[求职 Agent<br/>LangGraph ReAct]
+    end
+
+    subgraph 数据与模型层
+        VDB[(Chroma 向量库)]
+        LLM[DeepSeek API]
+        DB[(SQLite 对话历史)]
+    end
+
+    UI --> API
+    API --> RAG
+    API --> AGENT
+    RAG --> VDB
+    RAG --> LLM
+    AGENT --> VDB
+    AGENT --> LLM
+    API --> DB
+```
