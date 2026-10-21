@@ -22,7 +22,7 @@ def main():
         #----------------流式输出---------------
         print("\nAI: ",end="",flush=True)   #
         full=""
-        for piece in llm.chat_with_tools_stream(history,tools.TOOLS,tools.TOOL_MAP,on_tool_call=lambda n,a:print(f"[调用工具] {n}({a})")):
+        for piece in llm.chat_with_tools_stream(history,tools.get_tools(),tools.get_tool_map(),on_tool_call=lambda n,a:print(f"[调用工具] {n}({a})")):
             print(piece,end="",flush=True)   # 实时输出
             full+=piece     #如果漏了它，history里就少了用户输入的完整内容
 
